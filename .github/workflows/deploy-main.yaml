@@ -1,0 +1,71 @@
+name: build-deploy
+on:
+  push:
+    branches:
+      # Pushing to this branch will trigger the workflow
+      - main
+    paths-ignore:
+      - 'README.md'
+
+jobs:
+  build-theme:
+    runs-on: idimmusix-blog
+    defaults:
+      run:
+        working-directory: /var/www/wpsite
+    steps:
+      - name: Checkout
+        # Checkout our repository under `${GITHUB_WORKSPACE}`,
+        # so our workflow can access it
+        uses: actions/checkout@v3
+      - name: pull from github
+        run: sudo -u www-data git pull origin main
+
+  ####### UNCOMMENT CODE BELOW IF YOU NEED TO DEPLOY A THEME ######
+  #     - name: Install Composer dependencies
+  #       if: ${{ hashFiles('composer.json') != '' }}
+  #       # This will run `composer install`
+  #       # Since that's its default command
+  #       uses: php-actions/composer@v6
+
+  #     - name: Install Node.js LTS
+  #       if: ${{ hashFiles('package.json') != '' }}
+  #       # We use the LTS version of Node.js
+  #       # and cache packages installed via yarn
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 'lts/*'
+  #         cache: 'yarn'
+
+  #     - name: Install Node.js dependencies
+  #       run: yarn install
+
+  #     - name: Build theme
+  #       run: |
+  #         yarn run build
+  #       env:
+  #         CI: false
+
+  # deploy-theme:
+  #   runs-on: idimmusix-blog
+  #   defaults:
+  #     run:
+  #       working-directory: /var/www/wpsite/themes/mythemes
+  #   needs: build-theme
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+
+  #     - name: Set environment variables (main)
+  #       if: github.ref == 'refs/heads/main'
+  #       run: |
+  #         echo "DEPLOY_PATH=/var/www/wpsite/themes/mythemes" >> $GITHUB_ENV
+
+  #     - name: Set outputs
+  #       # Workaround to reference environment variables as inputs
+  #       # using step outputs, since we can't pass environment
+  #       # variables as inputs at the moment.
+  #       id: sftp_details
+  #       run: |
+  #         echo "deploy_path=${DEPLOY_PATH}" >> $GITHUB_OUTPUT
+          
