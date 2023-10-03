@@ -9,7 +9,7 @@ on:
 
 jobs:
   build-theme:
-    runs-on: idimmusix-blog
+    runs-on: wp-runner
     defaults:
       run:
         working-directory: /var/www/wpsite
