@@ -19,7 +19,7 @@ jobs:
         # so our workflow can access it
         uses: actions/checkout@v3
       - name: pull from github
-        run: sudo -u www-data git pull origin main
+        run: git pull origin main
 
   ####### UNCOMMENT CODE BELOW IF YOU NEED TO DEPLOY A THEME ######
   #     - name: Install Composer dependencies
